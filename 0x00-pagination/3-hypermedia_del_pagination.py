@@ -31,13 +31,7 @@ class Server:
         """Dataset indexed by sorting position, starting at 0
         """
         if self.__indexed_dataset is None:
-            dataset = self.dataseex = i
-        x,
-            'next_index': next_index,
-            'page_size': len(page_data),
-            'data': page_data,
-        }
-        return page_infot()
+            dataset = self.dataset()
             truncated_dataset = dataset[:1000]
             self.__indexed_dataset = {
                 i: dataset[i] for i in range(len(dataset))
@@ -58,4 +52,14 @@ class Server:
             if i >= start and data_count < page_size:
                 page_data.append(item)
                 data_count += 1
-             
+                continue
+            if data_count == page_size:
+                next_index = i
+                break
+        page_info = {
+            'index': index,
+            'next_index': next_index,
+            'page_size': len(page_data),
+            'data': page_data,
+        }
+        return page_info
